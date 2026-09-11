@@ -1,0 +1,87 @@
+{
+  "school": {
+    "name": "Green Basket Demo School",
+    "address": "Plot 18, Gwarinpa District, Abuja, Nigeria",
+    "motto": "Learning Today. Leading Tomorrow."
+  },
+  "academic": {
+    "session": "2025/2026 Academic Session",
+    "classes": [
+      "SS1 A",
+      "SS1 B",
+      "SS2 A",
+      "SS2 B",
+      "SS3 A",
+      "SS3 B"
+    ],
+    "studentCount": 192,
+    "teacherCount": 14,
+    "parentCount": 192
+  },
+  "featuredAccounts": [
+    {
+      "key": "owner",
+      "name": "Grace Ibrahim",
+      "role": "OWNER",
+      "username": "owner"
+    },
+    {
+      "key": "musa",
+      "name": "Musa Ibrahim",
+      "role": "TEACHER",
+      "username": "musa"
+    },
+    {
+      "key": "johno",
+      "name": "Johno Okafor",
+      "role": "TEACHER",
+      "username": "johno"
+    },
+    {
+      "key": "student",
+      "name": "Amina Abdullahi",
+      "role": "STUDENT",
+      "username": "student"
+    },
+    {
+      "key": "parent",
+      "name": "Abdullahi Bello",
+      "role": "PARENT",
+      "username": "parent"
+    }
+  ],
+  "subjects": [
+    "English Language",
+    "Mathematics",
+    "Biology",
+    "Chemistry",
+    "Physics",
+    "Economics",
+    "Government",
+    "Literature in English",
+    "Civic Education",
+    "Computer Studies",
+    "Geography",
+    "Agricultural Science"
+  ],
+  "history": {
+    "terms": 3,
+    "attendanceWeeks": 42,
+    "feeTypes": [
+      "Tuition",
+      "Development Levy",
+      "Transport",
+      "Examination"
+    ],
+    "multiplePaymentRecordsPerStudent": true,
+    "receipts": true,
+    "publishedResults": true,
+    "announcements": true
+  },
+  "safety": {
+    "dedicatedDatabaseOnly": true,
+    "passwordlessDemoEntryOnly": true,
+    "visitorWritesMustNotPersist": true,
+    "productionRepositoryReadOnly": true
+  }
+}
