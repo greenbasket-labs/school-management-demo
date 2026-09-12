@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import {
   assertPlatformProvisioningSecret,
   provisionFromPlatform,
-} from "../../../../../src/lib/platform-provisioning";
+} from "../../../../src/lib/platform-provisioning";
 
 export const runtime = "nodejs";
 
