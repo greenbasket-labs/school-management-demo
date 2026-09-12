@@ -10,7 +10,7 @@
     "lint": "eslint",
     "postinstall": "prisma skills sync || exit 0",
     "contract:emit": "prisma contract emit",
-    "demo:seed": "tsx scripts/seed-demo-school.ts"
+    "demo:seed": "tsx scripts/run-demo-seed.ts"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
