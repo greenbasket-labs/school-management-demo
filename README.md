@@ -2,405 +2,206 @@
 
 A realistic, disposable demonstration environment for the Green Basket School Management System.
 
-This repository exists to **demonstrate and verify the school-management product with realistic school data** without changing the production/source-of-truth repository.
+> **Production/source of truth:** `greenbasket-labs/school-management-system`
+>
+> **Demo repository:** `greenbasket-labs/school-management-demo`
+>
+> **Working branch:** `demo-build`
 
-> **Important:** This is the demo repository. The production repository `greenbasket-labs/school-management-system` must remain untouched by demo development.
-
----
-
-## 1. What This Demo Is
-
-The demo is a working school-management environment designed to let a school owner, administrator, teacher, cashier, parent, or student experience the important day-to-day workflows of the product.
-
-It is not a separate product architecture. It is a controlled demonstration and verification environment built around the same application concepts and database contract.
-
-The demo is intended to prove that the system can handle a realistic private-school workflow rather than only showing empty screens or placeholder records.
-
-### Demo goals
-
-- Show a realistic Nigerian private-school setup.
-- Populate the application with meaningful academic, financial, attendance, communication, and portal data.
-- Allow the major workflows to be tested from the UI.
-- Make demonstrations understandable without manually creating hundreds of records.
-- Keep demo data isolated from production.
-- Keep the demo disposable and resettable.
-- Preserve the production repository as the source of truth.
+The demo exists to let a prospective school experience the real product with realistic school data. It is **not** a screenshot/mockup site and it should not become a second product architecture.
 
 ---
 
-## 2. Repository Boundary
+## 1. Current Direction
 
-### Production repository
+### Marketing principle
 
-`greenbasket-labs/school-management-system`
+> **Don't just see screenshots. Enter the school and use it.**
 
-This is the production/source-of-truth codebase.
+The public demo should be the marketing face of Green Basket's school-management product:
 
-**Do not modify it as part of demo work.**
+1. Show a believable real school.
+2. Let visitors choose a representative role.
+3. Send them through the real authentication flow.
+4. Let them use the actual school workflows.
+5. Keep the experience simple and convincing.
 
-### Demo repository
-
-`greenbasket-labs/school-management-demo`
-
-This repository contains the demo-specific environment, demo seed, demo tooling, and demo verification work.
-
-Current working branch:
-
-`demo-build`
-
-All demo changes should be made here unless a deliberate project decision says otherwise.
+**Do not overbuild the demo.** The product itself should do the selling.
 
 ---
 
-## 3. Demo School Dataset
+## 2. Latest Completed Move
 
-The demo seed creates a realistic school dataset intended for end-to-end demonstrations.
+### Public demo front door
+
+The public `/` page was changed from a generic empty module showcase into a marketing-facing product entrance.
+
+It now presents:
+
+- Green Basket Global branding
+- School Management System branding
+- "Live product demo" positioning
+- "Don't just see screenshots. Enter the school and use it."
+- Green Basket Demo School
+- Gwarinpa, Abuja
+- 2025/2026 session
+- Representative role cards
+- Direct sign-in access
+
+The role cards currently use these representative usernames:
+
+| Role | Username |
+|---|---|
+| Owner / Admin | `admin` |
+| Cashier | `cashier` |
+| Teacher | `teacher1` |
+| Parent | `parent1` |
+| Student | `student1` |
+| School Admin | `admin` |
+
+The homepage implementation is in `app/page.tsx`.
+
+### Authentication
+
+The existing real authentication flow was retained. The login page uses `authenticateUser()` and routes:
+
+- Student → `/portal`
+- Parent → `/portal`
+- Teacher → `/portal`
+- Other staff/admin users → `/dashboard`
+
+Do **not** create a fake demo authentication system just for marketing.
+
+### Important verification note
+
+The homepage currently passes `?demo=<username>` to `/login`. The login page must read/use that parameter for the role cards to provide a true one-click demo entry. This is the next small authentication UX verification/fix to confirm before calling the role cards fully complete.
+
+---
+
+## 3. Current Next Move
+
+### Owner/Admin dashboard
+
+Build the first post-login Owner/Admin dashboard into a **real populated school dashboard** using existing database-backed data.
+
+Keep it small:
+
+- real student count
+- real teacher count
+- real class count
+- current academic session/term
+- useful finance summary if the existing data helpers support it
+- a small number of useful recent/attention items
+
+Do **not** hard-code fake statistics.
+
+Do **not** rewrite the existing finance, academic, attendance or authorization engines.
+
+After the Owner/Admin experience, verify the representative:
+
+1. Cashier
+2. Teacher
+3. Parent
+4. Student
+
+one by one.
+
+---
+
+## 4. Demo Dataset
+
+The current seed creates a realistic Nigerian private-school environment.
 
 ### School
 
-- **School:** Green Basket Demo School
-- **Country:** Nigeria
-- **Academic scope:** Secondary school
-- **Classes:** SS1–SS3
-- **Sections:** A and B
-- **Academic session:** 2025/2026
-- **Terms:** First, Second, Third
+- Green Basket Demo School
+- Plot 18, Gwarinpa District, Abuja, Nigeria
+- Academic session: 2025/2026
+- First, Second and Third terms
+- SS1 A, SS1 B, SS2 A, SS2 B, SS3 A, SS3 B
 
-### Students
+### Current seeded records
 
 - **192 students**
-- Realistic Nigerian names
-- Students distributed across SS1, SS2, and SS3
-- Students are linked to parents
-- Students have academic, attendance, and financial history
-
-### Parents
-
-- Parent records linked to students
-- Parent/student relationships are represented in the demo dataset
-- Parent-facing information can be used when testing portal workflows
-
-### Teachers and staff
-
-- **14 teachers/staff records**
-- Includes the featured demo teachers:
-  - **Musa Ibrahim**
-  - **Johno Okafor**
-
-### Subjects
-
-The dataset includes a broad secondary-school subject set so academic workflows look and behave like a real school environment.
-
-### Financial data
-
-The seed includes:
-
-- Fee types
-- Student fee assignments
-- Historical payments
-- Receipts
-- Payment history
-- Outstanding balances where applicable
-
-### Academic data
-
-The seed includes:
-
-- Exams
-- Assessment components
-- Marks
-- Results
-- Grades
-- Student/class context
-- Subject results
-- Academic summaries
-
-### Attendance
-
-The dataset includes historical attendance for students and staff so attendance pages and summaries are not empty.
-
-### Communication
-
-The demo includes school announcements and communication data for testing school-wide communication workflows.
-
-### Administration
-
-The demo includes administrative/audit data required to exercise core trust and administration workflows.
-
----
-
-## 4. Main Product Areas Demonstrated
-
-The demo is designed around the school's real operating cycle.
-
-### School & Organization
-
-- School identity
-- School settings
-- Branding
-- Organization context
-
-### Academic Structure
-
-- Academic sessions
-- Terms
-- Classes
-- Subjects
-- Class/subject relationships
-
-### Students
-
-- Student records
-- Student profiles
-- Student/class relationships
-- Parent relationships
-- Student history
-
-### Staff & Teachers
-
-- Staff records
-- Teacher records
-- Teacher/class/subject relationships
-- Staff administration
-
-### Attendance
-
-- Student attendance
-- Staff attendance
+- **14 teachers**
+- **6 classes**
+- **12 subjects**
+- Exams/results data
 - Attendance history
-- Attendance summaries
-- Class-level attendance views
-
-### Exams & Results
-
-- Exams
-- Assessment components
-- Marks
-- Results
-- Grades
-- Positions
-- Academic summaries
-- Report-card data
-
-### Fees, Billing & Payments
-
-- Fee types
 - Fee assignments
 - Payments
-- Payment history
 - Receipts
-- Balances
-- Financial transparency
-
-### Communication
-
+- Outstanding balances
+- Parent/student relationships
 - School announcements
-- School-wide communication
+- RBAC/audit-related data
 
-### Portals
+The student seed currently loops over `192` records in `scripts/seed-demo-school.ts`.
 
-The demo is intended to exercise the available:
+### Planned dataset improvement
 
-- Parent portal
-- Student portal
-- Teacher portal
+Increase the student seed from **192 to about 210** so the public demo represents a clear 200+ student school.
 
-Portal behavior should be verified against the actual application workflow during end-to-end testing.
+This has **not** yet been implemented.
 
-### Reports
-
-The demo contains enough academic, attendance, and financial history to exercise current reporting workflows.
-
-### Administration & Trust
-
-- User/role controls
-- Permissions
-- School-scoped audit history
-- Administrative actions
-
-### Platform / Operations
-
-The demo also contains the supporting platform boundary used for provisioning and demo operation.
+Also consider adding a dedicated **Accountant** representative login only after confirming that the existing RBAC seed contains the required role. Do not invent a role name.
 
 ---
 
-## 5. Demo Authentication
+## 5. Representative Demo Accounts
 
-The demo contains a dedicated demo-login experience intended to make demonstrations easy without requiring a presenter to create or remember a large set of passwords.
+The demo is intended to expose only a small number of easy-to-understand representative accounts publicly, even though the database contains many records.
 
-The existing login system should not be unnecessarily redesigned just to support the demo.
+Current intended public roles:
 
-When testing authentication, use the application's current demo-login flow and verify that the selected role reaches the expected school workflow.
+- Owner / Admin
+- Cashier
+- Teacher
+- Parent
+- Student
 
-> Authentication is part of the demo experience, but it is not a reason to alter the production authentication design.
+The database may contain many teacher, parent and student users. That is intentional. The public homepage should not list all of them.
+
+The seed uses the shared demo password defined by `DEMO_PASSWORD` in `scripts/seed-demo-school.ts`.
+
+Never put real production credentials in this repository.
 
 ---
 
 ## 6. Database Safety
 
-The demo database must be treated as **disposable**.
+The demo database is **disposable and isolated**.
 
-### Required rule
-
-Never point the demo seed at a production school database.
-
-The seed contains an explicit safety guard that requires:
+The demo seed requires:
 
 ```text
 DEMO_SEED=true
 ```
 
-It also refuses to seed a database that already contains a School record.
+The seed also refuses to run when a `School` record already exists.
 
-This prevents accidental modification of an existing school database.
+This safety guard must not be removed.
 
-### Expected workflow
-
-1. Create/use a dedicated demo database or Neon branch.
-2. Confirm the database is empty.
-3. Initialize the database against the application's contract.
-4. Seed RBAC data if required.
-5. Run the demo seed.
-6. Verify the resulting dataset.
-7. Run the application.
-8. Test workflows.
-
-### Never
-
-- Never run the demo seed against production.
-- Never remove the seed safety guard to make seeding easier.
-- Never use production credentials in a public/demo environment.
-- Never commit `.env` or database credentials.
-
----
-
-## 7. Environment Variables
-
-Create a local `.env` file.
-
-At minimum, the demo requires the database connection used by the application:
-
-```env
-DATABASE_URL="postgresql://..."
-```
-
-For demo seeding:
-
-```powershell
-$env:DEMO_SEED="true"
-```
-
-Keep all credentials private.
-
-### `.env` rules
-
-- `.env` is local configuration.
-- Do not commit database passwords.
-- Do not paste a real database URL into GitHub.
-- Use a dedicated demo database/branch.
-- Rotate credentials immediately if they are accidentally exposed.
-
----
-
-## 8. Installation
-
-From the repository root:
+### Recommended setup
 
 ```powershell
 npm install
-```
 
-The project uses the following major technologies:
-
-- Next.js
-- React
-- TypeScript
-- Prisma ORM / Prisma Postgres runtime
-- PostgreSQL
-- Tailwind CSS
-- `tsx` for TypeScript scripts
-
-The exact versions are maintained in `package.json`.
-
----
-
-## 9. Database Initialization
-
-After configuring `.env` with a valid dedicated demo database:
-
-```powershell
-npx prisma db init
-```
-
-This initializes/checks the database against the project's Prisma contract.
-
-A successful result should indicate that the database matches the contract or has been initialized successfully.
-
----
-
-## 10. RBAC Seed
-
-The role/permission seed can be run with:
-
-```powershell
-npx tsx .\scripts\seed-rbac.ts
-```
-
-The RBAC seed establishes the application's permissions and system roles.
-
-The demo has previously been verified with the RBAC seed producing:
-
-- 73 permissions
-- 7 system roles
-
-These numbers should be treated as a verification reference for the current codebase rather than a permanent product requirement.
-
----
-
-## 11. Demo School Seed
-
-The package script is:
-
-```powershell
-npm run demo:seed
-```
-
-Internally this runs:
-
-```text
-scripts/run-demo-seed.ts
-```
-
-The wrapper provides runtime compatibility required by the current generated Prisma/Postgres runtime and then loads the main demo dataset seed.
-
-The main dataset is defined in:
-
-```text
-scripts/seed-demo-school.ts
-```
-
-### Recommended command
-
-```powershell
 $env:DEMO_SEED="true"
 npm run demo:seed
+
+npm run dev
 ```
 
-### Seed safety behavior
+Use a dedicated demo database/branch.
 
-The seed checks that:
+Never point the demo seed at production.
 
-1. `DEMO_SEED` is explicitly enabled.
-2. The database is connected.
-3. The database does not already contain a School record.
-
-If a School already exists, the seed stops instead of modifying the database.
-
-This is intentional.
+Never commit `.env` or database credentials.
 
 ---
 
-## 12. Seed Runtime Compatibility
+## 7. Seed Runtime Compatibility
 
 The demo uses:
 
@@ -408,534 +209,242 @@ The demo uses:
 scripts/run-demo-seed.ts
 ```
 
-instead of directly running the large seed file.
-
-The wrapper handles current runtime compatibility without rewriting the large seed source.
-
-Current compatibility handling includes:
-
-- Installing the Temporal implementation expected by the runtime.
-- Loading the main seed after runtime setup.
-- Avoiding the unsupported top-level `PaymentAllocation` ORM namespace used by the current generated runtime.
-- Normalizing the demo attendance value that the current runtime does not accept (`LATE`) to the supported attendance value.
-
-The purpose of the wrapper is to keep the demo seed source stable while adapting it to the runtime currently installed in the demo repository.
-
----
-
-## 13. Running the Application
-
-Development mode:
-
-```powershell
-npm run dev
-```
-
-Then open the local URL shown by Next.js, normally:
+which wraps the main:
 
 ```text
-http://localhost:3000
+scripts/seed-demo-school.ts
 ```
 
-Production-style local run:
+The wrapper exists because of current generated Prisma/Postgres runtime compatibility.
 
-```powershell
-npm run build
-npm start
-```
+Known compatibility work includes:
+
+- Temporal runtime setup
+- Payment allocation runtime limitation
+- Attendance `LATE` normalization where the generated runtime does not currently accept it
+
+Do not manually edit generated Prisma contract/type files to silence errors.
+
+If the runtime contract changes, fix the source/runtime boundary deliberately.
 
 ---
 
-## 14. Recommended Demo Walkthrough
+## 8. Main Product Areas Already Represented
 
-A good demonstration should follow a real school workflow rather than jumping randomly between pages.
+The demo dataset is intended to exercise:
 
-### Step 1 — School
-
-Show:
-
-- School identity
-- School settings
-- Branding
-- Current academic session
-
-### Step 2 — Academic structure
-
-Show:
-
-- Sessions
-- Terms
-- SS1–SS3 classes
-- Subjects
-
-### Step 3 — Students
-
-Open a student profile and demonstrate:
-
-- Student information
-- Class
-- Parent relationship
-- Academic history
+- School & organization
+- Academic sessions and terms
+- Classes and subjects
+- Students
+- Parents
+- Teachers/staff
 - Attendance
-- Financial history
-
-### Step 4 — Teachers
-
-Use the featured demo teachers:
-
-- Musa Ibrahim
-- Johno Okafor
-
-Show their staff/teacher information and available teaching-related workflows.
-
-### Step 5 — Attendance
-
-Demonstrate:
-
-- Student attendance
-- Historical attendance
-- Class summaries
-- Staff attendance where applicable
-
-### Step 6 — Exams and results
-
-Show:
-
-- Examination data
-- Assessment marks
-- Subject results
-- Grades
-- Positions
-- Academic summary
-
-### Step 7 — Fees and payments
-
-Show:
-
-- Fee assignments
-- Payment history
+- Exams and results
+- Fees and payments
 - Receipts
-- Outstanding balances
+- Announcements
+- Parent portal
+- Student portal
+- Teacher portal
+- Reports
+- Roles and permissions
+- Audit/history
 
-This is especially important because financial information should be transparent and traceable.
-
-### Step 8 — Communication
-
-Show school announcements and communication workflows.
-
-### Step 9 — Portals
-
-Test the appropriate parent, student, and teacher experiences.
-
-### Step 10 — Reports
-
-Show academic, attendance, and payment reporting based on the seeded history.
-
-### Step 11 — Administration
-
-Show:
-
-- Roles
-- Permissions
-- Audit history
-- School-scoped administrative activity
+The objective is **end-to-end school workflow verification**, not proving that every possible page exists.
 
 ---
 
-## 15. Verification Philosophy
+## 9. Development Rules
 
-The objective is not to prove that every page exists.
+Every meaningful move must follow:
 
-The objective is to prove that **real school workflows work correctly from beginning to end**.
+> **Inspect → Implement → Verify → Document → Commit → Move On**
 
-Use this verification loop:
+### Always
 
-> **Audit → Real Gap → Smallest Useful Solution → Implement → Verify → Document → Move On**
+- Work on `demo-build` for demo changes.
+- Treat production as source of truth.
+- Inspect the existing implementation before editing.
+- Make the smallest useful change.
+- Reuse existing business logic.
+- Use real database data.
+- Update this README after every meaningful move.
+- Record the next concrete move.
 
-A feature should be considered practically complete when a real school can use its important workflow safely and consistently.
+### Never
 
----
-
-## 16. End-to-End Verification Checklist
-
-### School
-
-- [ ] School loads correctly
-- [ ] School settings work
-- [ ] Branding displays correctly
-
-### Academic
-
-- [ ] Session loads
-- [ ] Terms load
-- [ ] SS1 classes load
-- [ ] SS2 classes load
-- [ ] SS3 classes load
-- [ ] Subjects load
-
-### Students
-
-- [ ] 192 students exist
-- [ ] Student search works
-- [ ] Student profiles open
-- [ ] Class relationships are correct
-- [ ] Parent relationships are visible
-
-### Staff
-
-- [ ] 14 teachers/staff records exist
-- [ ] Musa Ibrahim exists
-- [ ] Johno Okafor exists
-- [ ] Teacher profiles/workflows open
-
-### Attendance
-
-- [ ] Attendance records exist
-- [ ] Attendance can be viewed
-- [ ] Attendance summaries work
-- [ ] Staff attendance is available where expected
-
-### Exams & Results
-
-- [ ] Exams exist
-- [ ] Assessment marks exist
-- [ ] Results exist
-- [ ] Grades display
-- [ ] Positions display where applicable
-- [ ] Academic summary displays
-
-### Fees & Payments
-
-- [ ] Fee types exist
-- [ ] Fee assignments exist
-- [ ] Payment history exists
-- [ ] Receipts exist
-- [ ] Balances calculate/display correctly
-- [ ] Receipt printing works where available
-
-### Communication
-
-- [ ] Announcements exist
-- [ ] Announcements display to the appropriate audience
-
-### Portals
-
-- [ ] Parent workflow works
-- [ ] Student workflow works
-- [ ] Teacher workflow works
-
-### Administration
-
-- [ ] Roles exist
-- [ ] Permissions exist
-- [ ] Audit history exists
-- [ ] School scoping is respected
-
-### Platform
-
-- [ ] Demo database is isolated
-- [ ] Production database is untouched
-- [ ] Provisioning boundary behaves as expected
-- [ ] Environment secrets are not exposed
+- Do not modify production just to make the demo easier.
+- Do not create fake statistics.
+- Do not create a parallel fake authentication system.
+- Do not duplicate business engines.
+- Do not weaken safety guards.
+- Do not overbuild the marketing page.
+- Do not guess missing modules when a build fails.
 
 ---
 
-## 17. What Must Not Be Done
+## 10. README Handover Rule
 
-### Do not modify production for demo convenience
+This README is part of the project's handover record.
 
-If the demo needs special data or demo-only behavior, implement it in this repository or in an explicitly agreed shared source change—not by silently changing the production repository.
+After every implementation move, update it with:
 
-### Do not remove safety guards
+- what changed;
+- why it changed;
+- what is verified;
+- what is not verified;
+- known limitations;
+- the next move.
 
-The seed refusing to touch an existing School database is a safety feature.
-
-### Do not hard-code fake success
-
-The demo should contain real database records and real application workflows, not screenshots pretending that a workflow works.
-
-### Do not overbuild
-
-Do not add features simply because a checklist can be made longer.
-
-The product principle remains:
-
-> Build what schools really need. Keep it simple, transparent, connected, and trustworthy.
+The next developer should be able to continue without reconstructing the project history from chat messages.
 
 ---
 
-## 18. Current Product Status
+## 11. Verification Checklist
 
-The underlying school-management product is organized around these operational groups:
+### Public demo
 
-| Group | Current direction |
-|---|---|
-| School & Organization | Practically complete |
-| Academic Structure | Practically complete |
-| Students | Practically complete |
-| Staff & Teachers | In review |
-| Attendance | Practically complete for current core workflow |
-| Exams & Results | Practically complete |
-| Fees, Billing & Payments | Practically complete for current core workflow |
-| Communication | Practically complete for core school announcements |
-| Portals | In review |
-| Reports | Practically complete for current core workflow |
-| Administration & Trust | Practically complete for current core workflow |
-| Platform / Operations | Practically complete for current product stage |
+- [x] Green Basket branding
+- [x] Live product demo positioning
+- [x] Role cards
+- [ ] `?demo=` role selection verified end-to-end
+- [ ] All representative accounts verified on deployed demo
 
-The next priority for the demo is **end-to-end verification**, not unnecessary feature expansion.
+### Owner/Admin
 
----
+- [ ] Real populated dashboard
+- [ ] Real student count
+- [ ] Real teacher count
+- [ ] Real class count
+- [ ] Current session/term
+- [ ] Useful finance summary
 
-## 19. Important Architectural/Product Principles
+### Cashier
 
-### One school workflow
+- [ ] Login works
+- [ ] Payment workflow works
+- [ ] Receipts work
+- [ ] Balance/payment history is visible
 
-The system should avoid creating separate competing ways to perform the same school operation.
+### Teacher
 
-### Configuration over unnecessary custom versions
+- [ ] Login works
+- [ ] Teacher portal loads
+- [ ] Classes/students load
+- [ ] Attendance workflow works
+- [ ] Academic/result workflow works
 
-Most private schools share the same core operational needs. Configuration should handle genuine differences where possible.
+### Parent
 
-### Preserve history
+- [ ] Login works
+- [ ] Parent portal loads
+- [ ] Child/student relationship works
+- [ ] Attendance works
+- [ ] Results work
+- [ ] Fees/payments work
+- [ ] Announcements work
 
-Academic and financial history should remain transparent and traceable.
+### Student
 
-### School-scoped data
+- [ ] Login works
+- [ ] Student portal loads
+- [ ] Subjects work
+- [ ] Attendance works
+- [ ] Results work
+- [ ] Announcements work
 
-Users and administrative actions must operate within the correct school context.
+### Dataset
 
-### No destructive shortcuts
+- [ ] 192 current students confirmed
+- [ ] Increase to ~210
+- [ ] 14 teachers confirmed
+- [ ] 6 classes confirmed
+- [ ] Academic data confirmed
+- [ ] Attendance data confirmed
+- [ ] Finance data confirmed
 
-A demo should never be made easier by weakening safeguards that matter in production.
+### Safety
 
-### Realistic data matters
-
-A school-management demo is much more useful when the presenter can search, navigate, inspect history, and follow a student through several connected workflows.
-
----
-
-## 20. Known Demo-Specific Runtime Notes
-
-The current demo branch contains compatibility work around the generated Prisma runtime.
-
-### Payment allocations
-
-The main seed contains payment allocation logic, but the currently generated ORM runtime does not expose `PaymentAllocation` as a top-level ORM namespace.
-
-The runtime wrapper therefore skips those optional allocation rows while retaining the core payment/receipt demo data.
-
-If payment-allocation support becomes necessary for the demo's verified workflow, it should be addressed deliberately against the current generated contract/runtime rather than by weakening type safety or editing generated files manually.
-
-### Attendance status
-
-The source seed contains a `LATE` branch for generated attendance. The current runtime contract accepts `PRESENT` and `ABSENT` for the relevant attendance record, so the runtime wrapper normalizes the unsupported `LATE` value to `PRESENT`.
-
-This is demo compatibility behavior and should be revisited if the product contract later adds a supported late status.
-
-### Generated contract files
-
-Do not manually edit generated Prisma contract/type files to silence seed errors.
-
-Fix the source/runtime boundary deliberately instead.
+- [ ] Dedicated demo database
+- [ ] Production untouched
+- [ ] `.env` not committed
+- [ ] Demo seed safety guard intact
 
 ---
 
-## 21. Development Workflow
-
-When making a demo change:
-
-1. Confirm the change belongs in the demo.
-2. Inspect the existing implementation.
-3. Avoid rewriting large files unnecessarily.
-4. Make the smallest useful change.
-5. Test the affected workflow.
-6. Check the Git diff.
-7. Commit with a clear message.
-8. Update this README when the product/demo state materially changes.
-
-Recommended Git commands:
-
-```powershell
-git status
-git diff
-git add .
-git commit -m "describe the change"
-git push origin demo-build
-```
-
-Before any destructive operation:
-
-```powershell
-git status
-git log -5 --oneline
-```
-
-Never use a destructive Git/database operation blindly.
-
----
-
-## 22. Troubleshooting
+## 12. Known Troubleshooting
 
 ### `DEMO_SEED` error
 
-Set:
-
 ```powershell
 $env:DEMO_SEED="true"
-```
-
-Then rerun:
-
-```powershell
 npm run demo:seed
 ```
 
 ### Seed says a School already exists
 
-Do not delete records blindly.
+Do not delete records blindly. Check that `DATABASE_URL` points to the intended empty demo database.
 
-The message means the seed safety guard detected an existing school. Verify that `DATABASE_URL` points to the intended dedicated demo database.
+### Role card reaches login but does not preselect the user
 
-### `Postgres URL must be a valid URL`
+Check `app/page.tsx` and `app/login/page.tsx`. The homepage currently sends `?demo=<username>`; the login page must consume that parameter without bypassing normal authentication.
 
-Check `.env`.
+### Dashboard/portal is empty
 
-The value must contain a real PostgreSQL URL, for example:
+Check:
 
-```text
-DATABASE_URL="postgresql://..."
-```
+1. the demo seed completed;
+2. the app and seed use the same database;
+3. the user belongs to the demo school;
+4. the selected workflow has seeded records.
 
-Do not leave:
+### Build/import error
 
-```text
-DATABASE_URL="PASTE_YOUR_DEMO_NEON_DATABASE_URL_HERE"
-```
-
-### `ENOTFOUND base`
-
-This generally indicates that the database URL is malformed and is being parsed with an invalid hostname.
-
-Check the `.env` value rather than changing application code.
-
-### Temporal runtime error
-
-Run the demo seed through:
-
-```powershell
-npm run demo:seed
-```
-
-rather than importing the large seed directly. The wrapper installs the required Temporal runtime compatibility.
-
-### Database connection failure
-
-Verify:
-
-- Neon branch is available.
-- `DATABASE_URL` is correct.
-- Credentials have not expired or been rotated.
-- The database is reachable.
-- The local `.env` is being loaded.
-
-Do not publish the connection string when asking for help.
+Do not guess. Inspect the exact failing import, compare the demo file with the production/source-of-truth implementation, and confirm the referenced module exists on the target branch.
 
 ---
 
-## 23. Security
+## 13. Important Product Principles
 
-This repository may be public or shared more widely than the private production environment, so assume everything committed to Git is visible to anyone with repository access.
+### Real school, not fake showcase
 
-Never commit:
+The demo must behave like a real school system.
 
-- Database passwords
-- Session secrets
-- API keys
-- Platform secrets
-- Private tokens
-- Real customer data
-- Production credentials
+### Marketing through product reality
 
-Use environment variables for secrets.
+The best marketing experience is letting a prospect use the connected system.
 
-If a secret is exposed, rotate it rather than merely deleting it from a later commit.
+### Configuration over unnecessary custom versions
 
----
+Keep genuine school differences configurable rather than creating multiple competing workflows.
 
-## 24. Demo Data Policy
+### Preserve history
 
-The demo dataset is synthetic demonstration data.
+Academic and financial records should remain transparent and traceable.
 
-It should not contain real student, parent, teacher, or school personal information.
+### School-scoped data
 
-The purpose of realistic Nigerian names and school records is to make workflows understandable during demonstrations, not to reproduce a real school's confidential information.
+Users and administrative actions must remain within the correct school context.
+
+### Simple and trustworthy
+
+Build what schools really need. Keep it simple, transparent, connected and trustworthy.
 
 ---
 
-## 25. Roadmap for This Demo
+## 14. Takeover Checklist
 
-### Phase 1 — Foundation
+A new developer should:
 
-- [x] Demo repository
-- [x] Dedicated demo branch
-- [x] Demo seed architecture
-- [x] Runtime-compatible seed wrapper
-- [x] Expanded school dataset
-- [x] Demo-specific API fixes
+1. Read this README.
+2. Confirm branch `demo-build`.
+3. Confirm production is `greenbasket-labs/school-management-system`.
+4. Inspect the latest commits.
+5. Check deployment/manual verification status.
+6. Continue from **Current Next Move** above.
+7. Update this README before stopping.
 
-### Phase 2 — Database
+### Current next move
 
-- [ ] Confirm dedicated clean Neon demo database
-- [ ] Run contract initialization
-- [ ] Seed RBAC
-- [ ] Run full demo seed
-- [ ] Verify record counts
-
-### Phase 3 — End-to-End Verification
-
-- [ ] Verify school setup
-- [ ] Verify academic structure
-- [ ] Verify students and parents
-- [ ] Verify teachers/staff
-- [ ] Verify attendance
-- [ ] Verify exams/results
-- [ ] Verify fees/payments
-- [ ] Verify communication
-- [ ] Verify portals
-- [ ] Verify reports
-- [ ] Verify administration/audit
-
-### Phase 4 — Presentation Readiness
-
-- [ ] Prepare clean demo login flow
-- [ ] Prepare presenter walkthrough
-- [ ] Verify representative student records
-- [ ] Verify representative payment/receipt records
-- [ ] Verify representative result/report records
-- [ ] Verify demo deployment
-- [ ] Verify reset/disposable-data process
-
----
-
-## 26. Definition of Done for the Demo
-
-The demo is ready for a real presentation when a presenter can start with a clean demo environment and successfully demonstrate a connected school journey such as:
-
-**School → Class → Student → Parent → Attendance → Exam Result → Fees/Payment → Receipt → Announcement → Portal → Report**
-
-without manually repairing database records during the presentation.
-
-The demo should feel like a functioning school system, not a collection of isolated feature screens.
-
----
-
-## 27. Final Principle
-
-The goal of this repository is simple:
-
-> **Make the Green Basket School Management System easy to understand, easy to demonstrate, and credible as a real school operations platform—without compromising the production system or weakening its safety boundaries.**
-
-The right next step after meaningful implementation is always:
-
-**Verify the real workflow. Document what was learned. Then move forward.**
+> **Build the real populated Owner/Admin dashboard using existing database-backed data, then verify it on the demo deployment.**
