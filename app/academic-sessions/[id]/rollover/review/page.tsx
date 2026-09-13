@@ -72,7 +72,7 @@ export default async function StudentRolloverReviewPage({
       action: decision as "PROMOTE" | "REPEAT" | "WITHDRAW" | "TRANSFER" | "GRADUATE",
       targetClassId,
       sessionId: targetSessionId,
-      actorUserId: currentActor.userId,
+      actorUserId: currentActor.id,
       effectiveDate: Temporal.Now.instant(),
       reason,
       allowDraftSession: true,
