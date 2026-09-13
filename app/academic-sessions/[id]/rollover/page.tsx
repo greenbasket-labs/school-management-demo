@@ -45,7 +45,7 @@ export default async function AcademicSessionRolloverPage({
       name,
       startDate,
       endDate,
-      actorUserId: currentActor.userId,
+      actorUserId: currentActor.id,
       reason,
     });
 
