@@ -47,7 +47,7 @@ export default async function DashboardPage() {
     .sort((a, b) => b.startDate.getTime() - a.startDate.getTime())[0];
   const activeTerm = activeSession
     ? terms
-        .filter((item) => item.sessionId === activeSession.id && item.status === "ACTIVE")
+        .filter((item) => item.sessionId === activeSession.id && item.isActive === true)
         .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())[0]
     : undefined;
 
