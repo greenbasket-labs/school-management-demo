@@ -6,12 +6,17 @@ export async function getSchool() {
   const currentUser = await getCurrentUser();
 
   if (!currentUser?.schoolId) {
-    return null;
+    throw new Error("School context is required");
   }
 
   const schools = await db.orm.public.School.all();
+  const school = schools.find((school) => school.id === currentUser.schoolId);
 
-  return schools.find((school) => school.id === currentUser.schoolId) ?? null;
+  if (!school) {
+    throw new Error("School not found");
+  }
+
+  return school;
 }
 
 export async function updateSchool(input: {
@@ -29,10 +34,6 @@ export async function updateSchool(input: {
   fontFamily: string;
 }) {
   const school = await getSchool();
-
-  if (!school) {
-    throw new Error("School not found");
-  }
 
   await db.orm.public.School
     .where({ id: school.id })
