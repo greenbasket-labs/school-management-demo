@@ -98,13 +98,13 @@ export async function applyStudentRolloverDecision(input: {
     userId: input.actorUserId,
     action: "STUDENT_ROLLOVER_DECISION",
     entity: "Student",
-    entityId: input.studentId,
+    entityId: String(input.studentId),
     oldValue: { sourceSessionId: sourceSession.id, targetSessionId: targetSession.id },
     newValue: {
       decision: input.decision,
       targetClassId: input.targetClassId ?? null,
       reason,
-      effectiveDate,
+      effectiveDate: input.effectiveDate,
     },
   });
 
