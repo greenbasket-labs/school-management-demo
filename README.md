@@ -61,50 +61,56 @@ The role cards currently use these representative usernames:
 
 The homepage implementation is in `app/page.tsx`.
 
-### Authentication
+### Authentication UX verification
 
-The existing real authentication flow was retained. The login page uses `authenticateUser()` and routes:
+The login page was inspected and confirmed to read `searchParams.demo`, validate it against the allowed demo account list, and prefill the login username. Authentication still goes through the existing `authenticateUser()` flow; the query parameter does **not** bypass authentication.
 
-- Student → `/portal`
-- Parent → `/portal`
-- Teacher → `/portal`
-- Other staff/admin users → `/dashboard`
+So the role-card → login preselection path is **verified in code**. Actual deployed-browser login still needs manual verification.
 
-Do **not** create a fake demo authentication system just for marketing.
+### Real Owner/Admin dashboard
 
-### Important verification note
+`app/dashboard/page.tsx` was upgraded from a static empty dashboard to a real database-backed school overview.
 
-The homepage currently passes `?demo=<username>` to `/login`. The login page must read/use that parameter for the role cards to provide a true one-click demo entry. This is the next small authentication UX verification/fix to confirm before calling the role cards fully complete.
+It now calculates and displays:
+
+- active student count
+- active teacher count
+- school class count
+- current academic session
+- current academic term
+- outstanding assigned fees after payment allocations
+- overall seeded attendance rate
+- completed payments recorded
+- direct links into the existing Students, Teachers, Academics, Finance, Attendance and Exams/Results areas
+
+The dashboard uses existing database models and existing business data. It does **not** create a second finance/attendance engine or hard-code demo statistics.
+
+The implementation is committed on `demo-build` as:
+
+`1ceeeee82173f7d863810432ffd35b08cefdf23a`
+
+This dashboard change is **implemented but not yet manually verified on the deployed demo**.
 
 ---
 
 ## 3. Current Next Move
 
-### Owner/Admin dashboard
+### Verify the real Owner/Admin experience
 
-Build the first post-login Owner/Admin dashboard into a **real populated school dashboard** using existing database-backed data.
+Before adding more UI, manually verify the deployed demo with the `admin` account:
 
-Keep it small:
+1. Public homepage loads.
+2. Owner / Admin role card opens login with `admin` preselected.
+3. `Demo@12345` signs in through normal authentication.
+4. `/dashboard` loads without runtime errors.
+5. Real seeded counts appear.
+6. Current session/term appears.
+7. Finance summary is non-zero and believable.
+8. Module links open the existing real workflows.
 
-- real student count
-- real teacher count
-- real class count
-- current academic session/term
-- useful finance summary if the existing data helpers support it
-- a small number of useful recent/attention items
+If that passes, move to **Cashier verification**, then Teacher, Parent and Student.
 
-Do **not** hard-code fake statistics.
-
-Do **not** rewrite the existing finance, academic, attendance or authorization engines.
-
-After the Owner/Admin experience, verify the representative:
-
-1. Cashier
-2. Teacher
-3. Parent
-4. Student
-
-one by one.
+Do not expand the dashboard unless manual verification exposes a real missing need.
 
 ---
 
@@ -308,17 +314,18 @@ The next developer should be able to continue without reconstructing the project
 - [x] Green Basket branding
 - [x] Live product demo positioning
 - [x] Role cards
-- [ ] `?demo=` role selection verified end-to-end
+- [x] `?demo=` role selection verified in code
 - [ ] All representative accounts verified on deployed demo
 
 ### Owner/Admin
 
-- [ ] Real populated dashboard
-- [ ] Real student count
-- [ ] Real teacher count
-- [ ] Real class count
-- [ ] Current session/term
-- [ ] Useful finance summary
+- [x] Real populated dashboard implemented
+- [x] Real student count implemented
+- [x] Real teacher count implemented
+- [x] Real class count implemented
+- [x] Current session/term implemented
+- [x] Finance summary implemented
+- [ ] Dashboard verified on deployed demo
 
 ### Cashier
 
@@ -388,7 +395,7 @@ Do not delete records blindly. Check that `DATABASE_URL` points to the intended 
 
 ### Role card reaches login but does not preselect the user
 
-Check `app/page.tsx` and `app/login/page.tsx`. The homepage currently sends `?demo=<username>`; the login page must consume that parameter without bypassing normal authentication.
+The current code already reads `searchParams.demo` and preselects a validated demo username. If it fails in the browser, inspect the deployed branch/build rather than changing authentication first.
 
 ### Dashboard/portal is empty
 
@@ -447,4 +454,4 @@ A new developer should:
 
 ### Current next move
 
-> **Build the real populated Owner/Admin dashboard using existing database-backed data, then verify it on the demo deployment.**
+> **Manually verify the real Owner/Admin dashboard on the deployed demo, then move to Cashier verification.**
