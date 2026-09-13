@@ -37,7 +37,7 @@ export default async function RolloverFinancePage({ params }: { params: Promise<
     await applyFeeRollover({
       sourceSessionId: sourceSession.id,
       targetSessionId,
-      actorUserId: currentActor.userId,
+      actorUserId: currentActor.id,
       mode: mode as "AUTO_CARRY_SESSION" | "MANUAL_TRANSFER" | "CLEAR_WAIVE" | "HISTORICAL_OUTSTANDING",
       studentIds,
       reason: String(formData.get("reason") ?? ""),
